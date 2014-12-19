@@ -1,0 +1,39 @@
+﻿using System;
+using System.Linq.Expressions;
+using System.Reflection;
+using ArrangeMock.UnitTest.TestableInterfaces;
+using Moq;
+using NUnit.Framework;
+using Shouldly;
+
+namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
+{
+    public class ExpressionArgumentTests
+    {
+        [Test]
+        public void IsCalledWithAnyArgumentOfTypeIsConvertedToIsAnyOfT()
+        {
+            Expression<Func<IPayrollSystem,int>> arrangeMockExpression = x => x.GetSalaryForEmployee(IsCalledWith.AnyArgumentOfType<string>());
+
+            var convertedExpression = ExpressionConverter.ConvertArrangeMockExpressionToMoqExpression(arrangeMockExpression);
+
+            Expression<Func<IPayrollSystem,int>> expectedMoqExpression  = x => x.GetSalaryForEmployee(It.IsAny<string>());
+
+            // TODO: Is there a better way of checking for equivalency between expressions rather than just using ToString()?
+            convertedExpression.ToString().ShouldBe(expectedMoqExpression.ToString());
+        }
+
+        [Test]
+        public void TestConvertArrangeMockMethodToMoqMethodExpression()
+        {
+            var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(typeof(string));
+
+            var anyArgumentOfTypeMethodinfo = typeof(IsCalledWith).GetMethod("AnyArgumentOfType").MakeGenericMethod(typeof(string));
+            var arrangeMockAnyArgumentOfTypeStringMethod = Expression.Call(anyArgumentOfTypeMethodinfo);
+
+            var conversionResult = ExpressionConverter.ConvertArrangeMockMethodExpressionToMoqMethodExpression(arrangeMockAnyArgumentOfTypeStringMethod);
+
+            conversionResult.Method.ShouldBe(moqItIsAnyTypeMethodinfo);
+        }
+    }
+}

@@ -1,0 +1,43 @@
+# use globbing syntax
+syntax: glob
+
+# VIM stuff
+*.swp
+*.*~
+*.bak
+
+# binaries
+*.exe
+*.exe.manifest
+*.dll
+*.lib
+
+# haskell specific
+*.hi
+*.o
+
+# vis studio
+*.suo
+*.ncb
+Debug
+Release
+bin
+obj
+logs
+TestResults
+_ReSharper*
+*.obj
+*.user
+*.ilk
+*.pdb
+*.orig
+
+# other version control systems. Prevent clashes
+.svn
+.hg
+
+# erlang
+*.beam
+
+#miscellaneous
+*.log
