@@ -50,7 +50,7 @@ namespace ArrangeMock
         internal static MethodCallExpression ConvertArrangeMockMethodExpressionToMoqMethodExpression(MethodCallExpression arrangeMockMethodCallExpression)
         {
 
-            if (arrangeMockMethodCallExpression.Method == typeof(IsCalledWith).GetMethod("AnyArgumentOfType").MakeGenericMethod(arrangeMockMethodCallExpression.Method.ReturnType))
+            if (arrangeMockMethodCallExpression.Method == typeof(WithAnyArgument).GetMethod("OfType").MakeGenericMethod(arrangeMockMethodCallExpression.Method.ReturnType))
             {
                 var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(arrangeMockMethodCallExpression.Method.ReturnType);
                 var moqItIsAnyTypeStringMethod = Expression.Call(moqItIsAnyTypeMethodinfo);

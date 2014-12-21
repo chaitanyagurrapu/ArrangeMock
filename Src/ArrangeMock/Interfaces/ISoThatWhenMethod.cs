@@ -2,6 +2,6 @@
 {
     public interface ISoThatWhenMethod<TResult>
     {
-        void ItReturns(TResult valueToReturn);
+        void IsCalledItReturns(TResult valueToReturn);
     }
 }

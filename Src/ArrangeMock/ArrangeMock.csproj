@@ -53,7 +53,7 @@
     <Compile Include="Interfaces\IArrangeMockObject.cs" />
     <Compile Include="Interfaces\ISoThatWhenMethodAction.cs" />
     <Compile Include="Interfaces\ISoThatWhenMethod.cs" />
-    <Compile Include="IsCalledWith.cs" />
+    <Compile Include="WithAnyArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoThanWhenMethod.cs" />
   </ItemGroup>

@@ -1,8 +1,8 @@
 ﻿namespace ArrangeMock
 {
-    public static class IsCalledWith
+    public static class WithAnyArgument
     {
-        public static T AnyArgumentOfType<T>()
+        public static T OfType<T>()
         {
             return default(T);
         }

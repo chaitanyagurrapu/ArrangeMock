@@ -18,7 +18,7 @@ namespace ArrangeMock
 
         internal TResult ValueToReturn {get; set;}
 
-        public void ItReturns(TResult valueToReturn)
+        public void IsCalledItReturns(TResult valueToReturn)
         {
             ValueToReturn = valueToReturn;
 

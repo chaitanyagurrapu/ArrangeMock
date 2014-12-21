@@ -18,7 +18,7 @@ namespace ArrangeMock.UnitTest.APITests
 
             payrollSystemMock.Arrange()
                              .SoThatWhenMethod(x => x.GetNextPayDate())
-                             .ItReturns(new DateTime(2014,11,11));
+                             .IsCalledItReturns(new DateTime(2014,11,11));
 
             payrollSystemMock.Object.GetNextPayDate().ShouldBe(new DateTime(2014,11,11));
         }
@@ -29,8 +29,8 @@ namespace ArrangeMock.UnitTest.APITests
             var payrollSystemMock = new Mock<IPayrollSystem>();
 
             payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.GetSalaryForEmployee(IsCalledWith.AnyArgumentOfType<string>()))
-                             .ItReturns(5);
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalledItReturns(5);
 
             payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
         }
@@ -57,7 +57,7 @@ namespace ArrangeMock.UnitTest.APITests
 
 
             payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(IsCalledWith.AnyArgumentOfType<string>()));
+                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()));
                              // TODO: Still need to work out this interface
 
             Assert.Fail();

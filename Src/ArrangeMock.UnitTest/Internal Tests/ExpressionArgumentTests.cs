@@ -13,7 +13,7 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
         [Test]
         public void IsCalledWithAnyArgumentOfTypeIsConvertedToIsAnyOfT()
         {
-            Expression<Func<IPayrollSystem,int>> arrangeMockExpression = x => x.GetSalaryForEmployee(IsCalledWith.AnyArgumentOfType<string>());
+            Expression<Func<IPayrollSystem,int>> arrangeMockExpression = x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>());
 
             var convertedExpression = ExpressionConverter.ConvertArrangeMockExpressionToMoqExpression(arrangeMockExpression);
 
@@ -28,7 +28,7 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
         {
             var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(typeof(string));
 
-            var anyArgumentOfTypeMethodinfo = typeof(IsCalledWith).GetMethod("AnyArgumentOfType").MakeGenericMethod(typeof(string));
+            var anyArgumentOfTypeMethodinfo = typeof(WithAnyArgument).GetMethod("OfType").MakeGenericMethod(typeof(string));
             var arrangeMockAnyArgumentOfTypeStringMethod = Expression.Call(anyArgumentOfTypeMethodinfo);
 
             var conversionResult = ExpressionConverter.ConvertArrangeMockMethodExpressionToMoqMethodExpression(arrangeMockAnyArgumentOfTypeStringMethod);
