@@ -8,6 +8,7 @@ syntax: glob
 
 # binaries
 *.exe
+!nuget.exe
 *.exe.manifest
 *.dll
 *.lib
