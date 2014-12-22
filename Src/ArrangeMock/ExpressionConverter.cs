@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using Moq;
 
 namespace ArrangeMock
@@ -50,14 +51,23 @@ namespace ArrangeMock
         internal static MethodCallExpression ConvertArrangeMockMethodExpressionToMoqMethodExpression(MethodCallExpression arrangeMockMethodCallExpression)
         {
 
-            if (arrangeMockMethodCallExpression.Method == typeof(WithAnyArgument).GetMethod("OfType").MakeGenericMethod(arrangeMockMethodCallExpression.Method.ReturnType))
+            var returnType = arrangeMockMethodCallExpression.Method.ReturnType;
+            if (arrangeMockMethodCallExpression.Method == CreateMethodCallWithTypeArguments(()=> WithAnyArgument.OfType<object>(), new [] { returnType }))
             {
-                var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(arrangeMockMethodCallExpression.Method.ReturnType);
+                var moqItIsAnyTypeMethodinfo = CreateMethodCallWithTypeArguments(() => It.IsAny<object>(), new [] { returnType });
                 var moqItIsAnyTypeStringMethod = Expression.Call(moqItIsAnyTypeMethodinfo);
                 return moqItIsAnyTypeStringMethod;
             }
 
             return arrangeMockMethodCallExpression;
+        }
+
+        internal static MethodInfo CreateMethodCallWithTypeArguments(Expression<Func<object>>  methodToGet, params Type[] typeArguments)
+        {
+            var methodName = ((MethodCallExpression)methodToGet.Body).Method;
+            var genericMethodDefinition = methodName.GetGenericMethodDefinition();
+            var methodDefinitionWithTypeArguments = genericMethodDefinition.MakeGenericMethod(typeArguments);
+            return methodDefinitionWithTypeArguments;
         }
     }
 

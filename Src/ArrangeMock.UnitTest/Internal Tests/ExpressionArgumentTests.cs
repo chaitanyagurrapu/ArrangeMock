@@ -35,5 +35,13 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
 
             conversionResult.Method.ShouldBe(moqItIsAnyTypeMethodinfo);
         }
+
+        [Test]
+        public void CreationOfMethodsWithTypeArgumentsTest()
+        {
+            var result = ExpressionConverter.CreateMethodCallWithTypeArguments(() => It.IsAny<object>(), new[] { typeof(string) });
+            var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(typeof(string));
+            result.ShouldBe(moqItIsAnyTypeMethodinfo);
+        }
     }
 }

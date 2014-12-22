@@ -1,6 +1,8 @@
-# Make Mocking More Meaningful
+# ArrangeMock [![Build status](https://ci.appveyor.com/api/projects/status/g28v083mu1widivv?svg=true)](https://ci.appveyor.com/project/chaitanyagurrapu/arrangemock)
+## Make Mocking More Meaningful
 
-Arrange mock makes it possible to write mocking code using more descriptive method names than the ones provided by mocking frameworks.
+
+ArrangeMock makes it possible to write mocking code using more descriptive method names than the ones provided by mocking frameworks.
 
 For example, consider the following set up using Moq ...
 
