@@ -57,6 +57,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="API Tests\AssertMethodTests.cs" />
     <Compile Include="API Tests\ArrangeMethodTests.cs" />
     <Compile Include="Internal Tests\ExpressionArgumentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

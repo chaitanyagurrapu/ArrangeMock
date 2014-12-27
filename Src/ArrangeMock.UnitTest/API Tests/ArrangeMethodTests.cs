@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using ArrangeMock.Interfaces;
 using ArrangeMock.UnitTest.TestableInterfaces;
 using Moq;
 using NUnit.Framework;
@@ -18,11 +16,12 @@ namespace ArrangeMock.UnitTest.APITests
 
             payrollSystemMock.Arrange()
                              .SoThatWhenMethod(x => x.GetNextPayDate())
-                             .IsCalledItReturns(new DateTime(2014,11,11));
+                             .IsCalled()
+                             .ItReturns(new DateTime(2014,11,11));
 
             payrollSystemMock.Object.GetNextPayDate().ShouldBe(new DateTime(2014,11,11));
         }
-
+        
         [Test]
         public void CanArrangeMethodWithAnyArgument()
         {
@@ -30,7 +29,8 @@ namespace ArrangeMock.UnitTest.APITests
 
             payrollSystemMock.Arrange()
                              .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
-                             .IsCalledItReturns(5);
+                             .IsCalled()
+                             .ItReturns(5);
 
             payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
         }
@@ -41,9 +41,9 @@ namespace ArrangeMock.UnitTest.APITests
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
 
-
             payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.FinaliseAllPayments());
+                             .SoThatWhenMethod(x => x.FinaliseAllPayments())
+                             .IsCalled();
                              // TODO: Still need to work out this interface
 
             Assert.Fail();
@@ -55,9 +55,9 @@ namespace ArrangeMock.UnitTest.APITests
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
 
-
             payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()));
+                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalled();
                              // TODO: Still need to work out this interface
 
             Assert.Fail();

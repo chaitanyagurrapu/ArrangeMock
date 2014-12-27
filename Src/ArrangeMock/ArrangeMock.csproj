@@ -49,15 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrangeExtensions.cs" />
+    <Compile Include="Interfaces\IThatAction.cs" />
+    <Compile Include="Interfaces\IThatFunction.cs" />
+    <Compile Include="MoqExtensions.cs" />
     <Compile Include="ArrangeMockObject.cs" />
     <Compile Include="ExpressionConverter.cs" />
-    <Compile Include="Interfaces\IArrangeMockObject.cs" />
-    <Compile Include="Interfaces\ISoThatWhenMethodAction.cs" />
-    <Compile Include="Interfaces\ISoThatWhenMethod.cs" />
+    <Compile Include="Interfaces\IActionIsCalled.cs" />
+    <Compile Include="Interfaces\IVerify.cs" />
+    <Compile Include="Interfaces\IArrange.cs" />
+    <Compile Include="Interfaces\ISoThatWhenAction.cs" />
+    <Compile Include="Interfaces\IFunctionIsCalled.cs" />
+    <Compile Include="Interfaces\ISoThatWhenFunction.cs" />
+    <Compile Include="Interfaces\ITimes.cs" />
+    <Compile Include="SoThanWhenAction.cs" />
     <Compile Include="WithAnyArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoThanWhenMethod.cs" />
+    <Compile Include="SoThanWhenFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
