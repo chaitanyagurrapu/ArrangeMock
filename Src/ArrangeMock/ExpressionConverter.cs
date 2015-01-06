@@ -69,6 +69,20 @@ namespace ArrangeMock
             var methodDefinitionWithTypeArguments = genericMethodDefinition.MakeGenericMethod(typeArguments);
             return methodDefinitionWithTypeArguments;
         }
+
+        internal static Action<T> ConvertMemberAccessFuncToAssignmentAction<T>(Expression<Func<T>>  memberAccessFunc)
+        {
+            var memberAccessExpression = memberAccessFunc.Body as MemberExpression;
+            if (memberAccessExpression == null)
+            {
+                throw new ArgumentException("Expected the lambda to be a member access expression");
+            }
+
+            ParameterExpression param = Expression.Parameter(memberAccessExpression.Type, "x");
+            var assignmentExpression = Expression.Assign(memberAccessExpression, param);
+            var lambda = Expression.Lambda<Action<T>>(assignmentExpression, new [] { param });
+            return lambda.Compile();
+        }
     }
 
 }

@@ -3,5 +3,6 @@
     public interface IFunctionIsCalled<TResult>
     {
         void ItReturns(TResult valueToReturn);
+        IArgumentPassedIn TheArgumentsPassedIn();
     }
 }

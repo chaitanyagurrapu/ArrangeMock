@@ -43,5 +43,45 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
             var moqItIsAnyTypeMethodinfo = typeof(It).GetMethod("IsAny").MakeGenericMethod(typeof(string));
             result.ShouldBe(moqItIsAnyTypeMethodinfo);
         }
+
+        [Test]
+        public void ConvertVariableAccessFunctionToAssignmentAction()
+        {
+            string testString = null;
+            Expression<Func<string>> inputFunc = () => testString;
+            Action<string> outputAction = x => testString = x;
+            var result = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(inputFunc);
+
+            result.ToString().ShouldBe(outputAction.ToString());
+        }
+
+        [Test]
+        public void ConvertPropertyAccessFunctionToAssignmentAction()
+        {
+            Expression<Func<string>> inputFunc = () => TestProperty;
+            Action<string> outputAction = x => TestProperty = x;
+            var result = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(inputFunc);
+
+            result.ToString().ShouldBe(outputAction.ToString());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConvertMemberAccessFunctionThrowsExceptionWhenNotPassedVariableAccess()
+        {
+            string testString = null;
+            Expression<Func<string>> inputFunc = () => TestMethod();
+            Action<string> outputAction = x => testString = x;
+            var result = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(inputFunc);
+
+            result.ToString().ShouldBe(outputAction.ToString());
+        }
+
+        private string TestMethod()
+        {
+            return "TestString";
+        }
+
+        private string TestProperty { get; set; }
     }
 }

@@ -24,5 +24,9 @@ namespace ArrangeMock
             return this;
         }
 
+        public IArgumentPassedIn TheArgumentsPassedIn()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
