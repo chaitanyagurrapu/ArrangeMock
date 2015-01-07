@@ -52,7 +52,7 @@ namespace ArrangeMock
             throw new NotImplementedException();
         }
 
-        public void AreSavedToLocalVariables<T>(Expression<Func<T>> localVariable)
+        public void AreSavedTo<T>(Expression<Func<T>> localVariable)
         {
             var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(localVariable);
             _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback<T>( assignTolocalVariable );

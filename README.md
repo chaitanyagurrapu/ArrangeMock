@@ -51,7 +51,7 @@ payrollSystemMock.Arrange()
                  .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
                  .IsCalled()
                  .TheArgumentsPassedIn()
-                 .AreSavedToLocalVariables(() => employeePassedToMethod);
+                 .AreSavedTo(() => employeePassedToMethod);
 
 ```
 
@@ -127,5 +127,5 @@ payrollSystemMock.Arrange()
                  .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
                  .IsCalled()
                  .TheArgumentsPassedIn()
-                 .AreSavedToLocalVariables(() => passedInString);
+                 .AreSavedTo(() => passedInString);
 ```

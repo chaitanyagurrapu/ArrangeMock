@@ -8,25 +8,24 @@ namespace ArrangeMock.UnitTest.APITests
 {
     public class CallbackTests
     {
+        private string TestPropertyToSaveStringIn { get; set; }
+
         [Test]
         public void ArgumentOfReferenceType_IsSavedInLocalVariable()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
             string passedInString = null;
 
-
             payrollSystemMock.Arrange()
                              .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
                              .IsCalled()
                              .TheArgumentsPassedIn()
-                             .AreSavedToLocalVariables(() => passedInString);
+                             .AreSavedTo(() => passedInString);
 
             payrollSystemMock.Object.GetSalaryForEmployee("Foo");
 
             passedInString.ShouldBe("Foo");
         }
-
-        private string TestPropertyToSaveStringIn { get; set; }
 
         [Test]
         public void ArgumentOfReferenceType_IsSavedInProperty()
@@ -38,7 +37,7 @@ namespace ArrangeMock.UnitTest.APITests
                              .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
                              .IsCalled()
                              .TheArgumentsPassedIn()
-                             .AreSavedToLocalVariables(() => TestPropertyToSaveStringIn);
+                             .AreSavedTo(() => TestPropertyToSaveStringIn);
 
             payrollSystemMock.Object.GetSalaryForEmployee("Foo");
 
@@ -46,17 +45,37 @@ namespace ArrangeMock.UnitTest.APITests
         }
 
         [Test]
-        [Ignore("Functionality Needs to be implemented")]
-        public void CanArrangeMethodWithAnyArgumentsAndVoidReturnType_AndUseCallbackToSaveArgument()
+        public void ForAction_ArgumentOfReferenceType_IsSavedInLocalVariable()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
+            string passedInString = null;
 
             payrollSystemMock.Arrange()
                              .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()))
-                             .IsCalled();
-                             // TODO: Still need to work out this interface
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => passedInString);
 
-            Assert.Fail();
+            payrollSystemMock.Object.FinalisePaymentsForEmployee("Foo");
+
+            passedInString.ShouldBe("Foo");
+        }
+
+        [Test]
+        public void For_Action_ArgumentOfReferenceType_IsSavedInProperty()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            TestPropertyToSaveStringIn = null;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => TestPropertyToSaveStringIn);
+
+            payrollSystemMock.Object.FinalisePaymentsForEmployee("Foo");
+
+            TestPropertyToSaveStringIn.ShouldBe("Foo");
         }
     }
 }

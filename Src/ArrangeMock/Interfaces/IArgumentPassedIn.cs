@@ -5,6 +5,6 @@ namespace ArrangeMock.Interfaces
 {
     public interface IArgumentPassedIn
     {
-        void AreSavedToLocalVariables<T>(Expression<Func<T>> localVariable);
+        void AreSavedTo<T>(Expression<Func<T>> localVariable);
     }
 }
