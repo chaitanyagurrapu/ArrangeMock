@@ -9,8 +9,7 @@ namespace ArrangeMock.UnitTest.APITests
     public class CallbackTests
     {
         [Test]
-        [Ignore("Functionality Needs to be implemented")]
-        public void ArgumentOfReferenceType_IsSavedBeforeIsCalled()
+        public void ArgumentOfReferenceType_IsSavedInLocalVariable()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
             string passedInString = null;
@@ -25,6 +24,25 @@ namespace ArrangeMock.UnitTest.APITests
             payrollSystemMock.Object.GetSalaryForEmployee("Foo");
 
             passedInString.ShouldBe("Foo");
+        }
+
+        private string TestPropertyToSaveStringIn { get; set; }
+
+        [Test]
+        public void ArgumentOfReferenceType_IsSavedInProperty()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            TestPropertyToSaveStringIn = null;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedToLocalVariables(() => TestPropertyToSaveStringIn);
+
+            payrollSystemMock.Object.GetSalaryForEmployee("Foo");
+
+            TestPropertyToSaveStringIn.ShouldBe("Foo");
         }
 
         [Test]

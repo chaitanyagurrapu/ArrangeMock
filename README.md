@@ -14,7 +14,7 @@ payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
 
 ```
 
-For veteran mockers this is as clear as daylight. But if you are new to Moq or mocking in general, this can take some getting used to. Especially, the `It.IsAny<string>()` part where we want to 
+For veteran mockers this is probably self explanatory. But if you are new to Moq or mocking in general, this can take some getting used to. Especially, the `It.IsAny<string>()` part where we want to 
 specify that we don't care about the input to the method.
 
 We can do better. Using ArrangeMock, the same set up looks like so ...
@@ -29,11 +29,37 @@ payrollSystemMock.Arrange()
 
 ```
 
+Or consider the following, more complex scenario - we need to set up a method and capture any arguments that were used to invoke this method. In Moq, this is usually done with a callback like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+var employeePassedToMethod = null;
+
+payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
+                 .Callback<string>(x => employeePassedToMethod = x);
+
+```
+
+Anyone who had to set up this scenario had to spend some time googling before discovering the "Callback" method and how it can be used. The same set up in ArrangeMock looks like so ...
 
 
-The unfamiliar Moq method names, It.IsAny<T>() syntax and any other esoteric mocking setups are wrapped up in more descriptive and easy to read code.
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+var employeePassedToMethod = null;
 
-ArrangeMock wraps up the common mocking scenarios. But if you need to do some very specific set up that is not aliased by ArrangeMock, 
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                 .IsCalled()
+                 .TheArgumentsPassedIn()
+                 .AreSavedToLocalVariables(() => employeePassedToMethod);
+
+```
+
+This is a lot more intuitive and easy to read.
+
+With ArrangeMock, the unfamiliar Moq method names, It.IsAny<T>() syntax and any other esoteric mocking setups are wrapped up in more descriptive and easy to read code.
+
+While ArrangeMock wraps up the common mocking scenarios and patterns if you need to set up a scenario that is not aliased by ArrangeMock 
 you still have the original Moq object which can be used as per normal.
 
 ### Setup 
@@ -84,5 +110,22 @@ payrollSystemMock.Assert()
                  .WasCalled();
 ```
 
+### Processing Method Arguments
+In Moq, the "Callback" method is used to take the arguments that are passed in to a method and process them further. In ArrangeMock,
+this function is performed by the "TheArgumentsPassedIn" method.
 
 
+#### Saving variables.
+With ArrangeMock, given a method that has one parameter, we can save the argument that was actually passed in like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+string passedInString = null;
+
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                 .IsCalled()
+                 .TheArgumentsPassedIn()
+                 .AreSavedToLocalVariables(() => passedInString);
+```

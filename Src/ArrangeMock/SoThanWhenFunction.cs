@@ -54,9 +54,8 @@ namespace ArrangeMock
 
         public void AreSavedToLocalVariables<T>(Expression<Func<T>> localVariable)
         {
-            //_mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback<T>(
-            //                                                                    x => localVariable.Compile().Invoke() = x
-            //                                                                  );
+            var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(localVariable);
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback<T>( assignTolocalVariable );
         }
     }
 }
