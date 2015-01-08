@@ -60,7 +60,8 @@
   <ItemGroup>
     <Compile Include="API Tests\AssertMethodTests.cs" />
     <Compile Include="API Tests\ArrangeMethodTests.cs" />
-    <Compile Include="API Tests\CallbackTests.cs" />
+    <Compile Include="API Tests\CallbackTestsForFunctions.cs" />
+    <Compile Include="API Tests\CallbackTestsForActions.cs" />
     <Compile Include="Internal Tests\ExpressionArgumentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Testable Interfaces\IPayrollSystem.cs" />

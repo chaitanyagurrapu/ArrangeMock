@@ -2,7 +2,7 @@
 {
     public interface IFunctionIsCalled<TResult>
     {
-        void ItReturns(TResult valueToReturn);
+        IItReturns ItReturns(TResult valueToReturn);
         IArgumentPassedIn TheArgumentsPassedIn();
     }
 }

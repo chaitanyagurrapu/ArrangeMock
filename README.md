@@ -29,13 +29,15 @@ payrollSystemMock.Arrange()
 
 ```
 
-Or consider the following, more complex scenario - we need to set up a method and capture any arguments that were used to invoke this method. In Moq, this is usually done with a callback like so ...
+Or consider the following, more complex scenario - we need to set up a method to return a particular value and capture the arguments that were used to invoke this method. 
+In Moq, this is usually done with a callback like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
 var employeePassedToMethod = null;
 
 payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
+                 .Returns(5)
                  .Callback<string>(x => employeePassedToMethod = x);
 
 ```
@@ -50,7 +52,8 @@ var employeePassedToMethod = null;
 payrollSystemMock.Arrange()
                  .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
                  .IsCalled()
-                 .TheArgumentsPassedIn()
+                 .ItReturns(5)
+                 .AndTheArgumentsPassedIn()
                  .AreSavedTo(() => employeePassedToMethod);
 
 ```
@@ -115,13 +118,12 @@ In Moq, the "Callback" method is used to take the arguments that are passed in t
 this function is performed by the "TheArgumentsPassedIn" method.
 
 
-#### Saving variables.
+#### Saving arguments.
 With ArrangeMock, given a method that has one parameter, we can save the argument that was actually passed in like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
 string passedInString = null;
-
 
 payrollSystemMock.Arrange()
                  .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))

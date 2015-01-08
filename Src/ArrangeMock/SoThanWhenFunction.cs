@@ -8,14 +8,15 @@ namespace ArrangeMock
     internal class SoThatWhenFunction<T, TResult> : ISoThatWhenFunction<TResult>,
                                                    IFunctionIsCalled<TResult>,
                                                    IThatFunction<TResult>,
-                                                   IArgumentPassedIn
+                                                   IArgumentPassedIn,
+                                                   IItReturns
                                                    where T : class
     {
         private readonly Expression<Func<T, TResult>> _functionToArrange;
         private Mock<T> _mockToArrange;
         private Expression _functionToArrangeConvertedToMoqExpression;
         private Expression<Func<T, TResult>> _moqExpressionCastToOriginalType;
-        private TResult ValueToReturn { get; set; }
+        private TResult _valueToReturn;
 
         internal SoThatWhenFunction(Mock<T> mockToArrange, Expression<Func<T, TResult>> functionToArrange)
         {
@@ -30,14 +31,19 @@ namespace ArrangeMock
             return this;
         }
 
-        public void ItReturns(TResult valueToReturn)
+        public IItReturns ItReturns(TResult valueToReturn)
         {
-            ValueToReturn = valueToReturn;
-
-            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Returns(ValueToReturn);
+            _valueToReturn = valueToReturn;
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Returns(_valueToReturn);
+            return this;
         }
 
         public IArgumentPassedIn TheArgumentsPassedIn()
+        {
+            return this;
+        }
+
+        public IArgumentPassedIn AndTheArgumentsPassedIn()
         {
             return this;
         }
@@ -52,10 +58,18 @@ namespace ArrangeMock
             throw new NotImplementedException();
         }
 
-        public void AreSavedTo<T>(Expression<Func<T>> localVariable)
+        public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
         {
-            var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(localVariable);
-            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback<T>( assignTolocalVariable );
+            var saveToAssignmentAction = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(memberAccessExpression);
+            if (_valueToReturn != null)
+            {
+                _mockToArrange.Setup(_moqExpressionCastToOriginalType).Returns(_valueToReturn).Callback(saveToAssignmentAction);
+            }
+            else
+            {
+                _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(saveToAssignmentAction);
+            }
         }
+
     }
 }

@@ -35,33 +35,5 @@ namespace ArrangeMock.UnitTest.APITests
             payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
         }
 
-        [Test]
-        [Ignore("Functionality Needs to be implemented")]
-        public void CanArrangeMethodWithAnyArgumentsAndVoidReturnType()
-        {
-            var payrollSystemMock = new Mock<IPayrollSystem>();
-
-            payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployee(WithAnyArgument.OfType<string>()))
-                             .IsCalled();
-                             // TODO: Still need to work out this interface
-
-            Assert.Fail();
-        }
-
-        [Test]
-        [Ignore("Functionality Needs to be implemented")]
-        public void CanArrangeMethodWithVoidReturnType()
-        {
-            var payrollSystemMock = new Mock<IPayrollSystem>();
-
-            payrollSystemMock.Arrange()
-                             .SoThatWhenMethod(x => x.FinaliseAllPayments())
-                             .IsCalled();
-                             // TODO: Still need to work out this interface
-
-            Assert.Fail();
-        }
-
     }
 }
