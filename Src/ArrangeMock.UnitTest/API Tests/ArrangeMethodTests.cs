@@ -35,5 +35,36 @@ namespace ArrangeMock.UnitTest.APITests
             payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
         }
 
+        [Test]
+        public void CanArrangeMethodWithTwoAnyArguments()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(),
+                                                                                  WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .ItReturns(6);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(6);
+        }
+
+        [Test]
+        public void CanArrangeMethodWithThreeAnyArguments()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForPeriod(WithAnyArgument.OfType<string>(),
+                                                                                    WithAnyArgument.OfType<DateTime>(),
+                                                                                    WithAnyArgument.OfType<DateTime>()))
+                             .IsCalled()
+                             .ItReturns(6);
+
+            payrollSystemMock.Object
+                             .GetSalaryForEmployeeForPeriod("Foo", DateTime.Now.AddYears(-2), DateTime.Now.AddYears(-1))
+                             .ShouldBe(6);
+        }
+
     }
 }
