@@ -67,35 +67,35 @@ you still have the original Moq object which can be used as per normal.
 
 ### Contents
 #### Setup 
-[Method without any arguments](#Method-without-any-arguments)
+[Method without any arguments](#method-without-any-arguments)
 
-[Method with one argument](#Method-with-one-argument)
+[Method with one argument](#method-with-one-argument)
 
-[Method with more than one argument](#Method-with-more-than-one-argument)
+[Method with more than one argument](#method-with-more-than-one-argument)
 
 #### Verify
-[Method was called](#Method-was-called)
+[Method was called](#method-was-called)
 
-[Method was called at least x times](#Method-was-called-at-least-x-times)
+[Method was called at least x times](#method-was-called-at-least-x-times)
 
-[Method was called at least once](#Method-was-called-at-least-once)
+[Method was called at least once](#method-was-called-at-least-once)
 
-[Method was called at most x times](#Method-was-called-at-most-x-times)
+[Method was called at most x times](#method-was-called-at-most-x-times)
 
-[Method was called at most once](#Method-was-called-at-most-once)
+[Method was called at most once](#method-was-called-at-most-once)
 
-[Method was called between x and y times (inclusive)](#Method-was-called-between-x-and-y-times-(inclusive))
+[Method was called between x and y times (inclusive)](#method-was-called-between-x-and-y-times-inclusive)
 
-[Method was called between x and y times (exclusive)](#Method-was-called-between-x-and-y-times-(exclusive))
+[Method was called between x and y times (exclusive)](#method-was-called-between-x-and-y-times-exclusive)
 
-[Method was called exactly x times](#Method-was-called-exactly-x-times)
+[Method was called exactly x times](#method-was-called-exactly-x-times)
 
-[Method was never called](#Method-was-never-called)
+[Method was never called](#method-was-never-called)
 
-[Method was called once](#Method-was-called-once)
+[Method was called once](#method-was-called-once)
 
 #### Processing Method Arguments
-[Saving arguments](#Saving-arguments)
+[Saving arguments](#saving-arguments)
 
 ### Setup 
 #### Method without any arguments
