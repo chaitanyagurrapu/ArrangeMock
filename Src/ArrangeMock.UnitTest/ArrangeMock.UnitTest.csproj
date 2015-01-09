@@ -58,7 +58,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="API Tests\AssertMethodTests.cs" />
+    <Compile Include="API Tests\AssertMethodTestFunction.cs" />
+    <Compile Include="API Tests\AssertMethodTestBase.cs" />
     <Compile Include="API Tests\ArrangeMethodTests.cs" />
     <Compile Include="API Tests\CallbackTestsForFunctions.cs" />
     <Compile Include="API Tests\CallbackTestsForActions.cs" />

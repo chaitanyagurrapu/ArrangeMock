@@ -1,6 +1,6 @@
 namespace ArrangeMock.Interfaces
 {
-    public interface IThatAction<T>
+    public interface IThatAction
     {
     }
 }

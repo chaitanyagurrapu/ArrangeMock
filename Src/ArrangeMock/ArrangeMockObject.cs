@@ -32,7 +32,7 @@ namespace ArrangeMock
             return soThatWhenToReturn;
         }
 
-        public IThatAction<T> ThatMethod(Expression<Action<T>> methodToArrange)
+        public IThatAction ThatMethod(Expression<Action<T>> methodToArrange)
         {
             throw new NotImplementedException();
         }

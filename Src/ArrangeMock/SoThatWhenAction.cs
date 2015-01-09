@@ -34,10 +34,10 @@ namespace ArrangeMock
             return this;
         }
 
-        public void AreSavedTo<T>(Expression<Func<T>> memberAccessExpression)
+        public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
         {
             var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(memberAccessExpression);
-            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback<T>( assignTolocalVariable );
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback( assignTolocalVariable );
         }
     }
 }
