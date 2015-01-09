@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Linq.Expressions;
 using ArrangeMock.Interfaces;
 using Moq;
@@ -7,8 +8,12 @@ namespace ArrangeMock
 {
     internal class SoThatWhenFunction<T, TResult> : ISoThatWhenFunction<TResult>,
                                                    IFunctionIsCalled<TResult>,
-                                                   IThatFunction<TResult>,
+                                                   IThatFunction,
                                                    IArgumentPassedIn,
+                                                   IWasCalled,
+                                                   IBetween,
+                                                   IBetweenTimes,
+                                                   ITimes,
                                                    IItReturns
                                                    where T : class
     {
@@ -17,6 +22,8 @@ namespace ArrangeMock
         private Expression _functionToArrangeConvertedToMoqExpression;
         private Expression<Func<T, TResult>> _moqExpressionCastToOriginalType;
         private TResult _valueToReturn;
+        private int wasCalledBetweenFromNumber;
+        private int wasCalledBetweenToNumber;
 
         internal SoThatWhenFunction(Mock<T> mockToArrange, Expression<Func<T, TResult>> functionToArrange)
         {
@@ -48,14 +55,70 @@ namespace ArrangeMock
             return this;
         }
 
-        public void WasCalled()
+        public IWasCalled WasCalled()
         {
             _mockToArrange.Verify(_moqExpressionCastToOriginalType);
+            return this;
         }
 
-        public ITimes WasCalled(int numberOfTimesCalled)
+        public ITimes AtLeast(int number)
         {
-            throw new NotImplementedException();
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.AtLeast(number));
+            return this;
+        }
+
+        public void AtLeastOnce()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.AtLeastOnce);
+        }
+
+        public ITimes WasCalledAtMost(int number)
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.AtMost(number));
+            return this;
+        }
+
+        public void WasCalledAtMostOnce()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.AtMostOnce());
+        }
+
+        public IBetween WasCalledBetween(int number)
+        {
+            wasCalledBetweenFromNumber = number;
+            return this;
+        }
+
+        public IBetweenTimes And(int number)
+        {
+            wasCalledBetweenToNumber = number;
+            return this;
+        }
+
+        public void TimesIncludingTheToAndFromValues()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Between(wasCalledBetweenFromNumber,wasCalledBetweenToNumber, Range.Inclusive));
+        }
+
+        public void TimesExcludingTheToAndFromValues()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Between(wasCalledBetweenFromNumber,wasCalledBetweenToNumber, Range.Exclusive));
+        }
+
+        public ITimes Exactly(int number)
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Exactly(number));
+            return this;
+        }
+
+        public void WasNeverCalled()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Never());
+        }
+
+        public void Once()
+        {
+            _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Once());
         }
 
         public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
@@ -70,6 +133,12 @@ namespace ArrangeMock
                 _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(saveToAssignmentAction);
             }
         }
+
+        public void Times()
+        {
+            // Do nothing. This just serves as a text to make the test more readably.
+        }
+
 
     }
 }

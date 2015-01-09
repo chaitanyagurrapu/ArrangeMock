@@ -26,7 +26,7 @@ namespace ArrangeMock
             return soThatWhenToReturn;
         }
 
-        public IThatFunction<TResult> ThatMethod<TResult>(Expression<Func<T, TResult>> methodToArrange)
+        public IThatFunction ThatMethod<TResult>(Expression<Func<T, TResult>> methodToArrange)
         {
             var soThatWhenToReturn = new SoThatWhenFunction<T,TResult>(_mockToArrange, methodToArrange);
             return soThatWhenToReturn;

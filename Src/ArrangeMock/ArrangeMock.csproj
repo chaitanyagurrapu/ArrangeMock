@@ -49,10 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBetweenTimes.cs" />
+    <Compile Include="Interfaces\IBetween.cs" />
     <Compile Include="Interfaces\IItReturns.cs" />
     <Compile Include="Interfaces\IArgumentPassedIn.cs" />
     <Compile Include="Interfaces\IThatAction.cs" />
     <Compile Include="Interfaces\IThatFunction.cs" />
+    <Compile Include="Interfaces\IWasCalled.cs" />
     <Compile Include="MoqExtensions.cs" />
     <Compile Include="ArrangeMockObject.cs" />
     <Compile Include="ExpressionConverter.cs" />
@@ -63,10 +66,10 @@
     <Compile Include="Interfaces\IFunctionIsCalled.cs" />
     <Compile Include="Interfaces\ISoThatWhenFunction.cs" />
     <Compile Include="Interfaces\ITimes.cs" />
-    <Compile Include="SoThanWhenAction.cs" />
+    <Compile Include="SoThatWhenAction.cs" />
     <Compile Include="WithAnyArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoThanWhenFunction.cs" />
+    <Compile Include="SoThatWhenFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

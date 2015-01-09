@@ -17,7 +17,8 @@ payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
 For veteran mockers this is probably self explanatory. But if you are new to Moq or mocking in general, this can take some getting used to. Especially, the `It.IsAny<string>()` part where we want to 
 specify that we don't care about the input to the method.
 
-We can do better. Using ArrangeMock, the same set up looks like so ...
+We can do better. 
+Using ArrangeMock, the same set up looks like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
@@ -44,7 +45,6 @@ payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
 
 Anyone who had to set up this scenario had to spend some time googling before discovering the "Callback" method and how it can be used. The same set up in ArrangeMock looks like so ...
 
-
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
 var employeePassedToMethod = null;
@@ -65,8 +65,40 @@ With ArrangeMock, the unfamiliar Moq method names, It.IsAny<T>() syntax and any 
 While ArrangeMock wraps up the common mocking scenarios and patterns if you need to set up a scenario that is not aliased by ArrangeMock 
 you still have the original Moq object which can be used as per normal.
 
+### Contents
+#### Setup 
+[Method without any arguments](#Method-without-any-arguments)
+
+[Method with one argument](#Method-with-one-argument)
+
+[Method with more than one argument](#Method-with-more-than-one-argument)
+
+#### Verify
+[Method was called](#Method-was-called)
+
+[Method was called at least x times](#Method-was-called-at-least-x-times)
+
+[Method was called at least once](#Method-was-called-at-least-once)
+
+[Method was called at most x times](#Method-was-called-at-most-x-times)
+
+[Method was called at most once](#Method-was-called-at-most-once)
+
+[Method was called between x and y times (inclusive)](#Method-was-called-between-x-and-y-times-(inclusive))
+
+[Method was called between x and y times (exclusive)](#Method-was-called-between-x-and-y-times-(exclusive))
+
+[Method was called exactly x times](#Method-was-called-exactly-x-times)
+
+[Method was never called](#Method-was-never-called)
+
+[Method was called once](#Method-was-called-once)
+
+#### Processing Method Arguments
+[Saving arguments](#Saving-arguments)
+
 ### Setup 
-#### Functions
+#### Method without any arguments
 
 With ArrangeMock, a function that doesn't take any arguments and returns a value can be mocked like so ...
 
@@ -79,6 +111,7 @@ payrollSystemMock.Arrange()
                  .ItReturns(new DateTime(2014,11,11));
 ```
 
+#### Method with one argument
 With ArrangeMock, a function that takes an argument of type string and returns a value can be mocked like so ...
 
 ```c#
@@ -91,14 +124,28 @@ payrollSystemMock.Arrange()
 
 payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
 ```
+#### Method with more than one argument
+With ArrangeMock, a function that takes arguments of type string and int and returns a value can be mocked like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(),
+                                                                      WithAnyArgument.OfType<int>()))
+                 .IsCalled()
+                 .ItReturns(6);
+
+payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(6);
+```
 
 ### Verify
 In Moq, the "Verify" method is used to assert that a method was called on the mock. In ArrangeMock, this function is performed
 by the "Assert" method.
 
-#### Functions
+#### Method was called
 
-With ArrangeMock, given a method that doesnt't take any parameters, we can confirm that it was called at least once like so ...
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at least once like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
@@ -111,6 +158,166 @@ payrollSystemMock.Arrange()
 payrollSystemMock.Assert()
                  .ThatMethod(x => x.GetNextPayDate())
                  .WasCalled();
+```
+
+#### Method was called at least x times
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at least 3 times like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalled()
+                 .AtLeast(3)
+                 .Times();
+```
+
+#### Method was called at least once
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at least once like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalled()
+                 .AtLeastOnce();
+```
+
+#### Method was called at most x times
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at most 2 times like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalledAtMost(2)
+                 .Times();
+```
+
+#### Method was called at most once
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at most once like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalledAtMostOnce();
+```
+#### Method was called between x and y times (inclusive)
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called at least 2 and and no more than 3 times like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalledBetween(2)
+                 .And(3).TimesIncludingTheToAndFromValues();
+```
+
+#### Method was called between x and y times (exclusive)
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called more than 2 and less than 4 times like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalledBetween(2)
+                 .And(4).TimesExcludingTheToAndFromValues();
+```
+
+#### Method was called exactly x times
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was called exactly 2 times like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalled()
+                 .Exactly(2)
+                 .Times();
+```
+
+#### Method was never called
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was never called like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasNeverCalled();
+```
+#### Method was called once
+
+With ArrangeMock, given a method that doesn't take any parameters, we can confirm that it was never called once like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetNextPayDate())
+                 .IsCalled()
+                 .ItReturns(new DateTime(2014,11,11));
+
+payrollSystemMock.Assert()
+                 .ThatMethod(x => x.GetNextPayDate())
+                 .WasCalled()
+                 .Once();
 ```
 
 ### Processing Method Arguments
