@@ -41,13 +41,6 @@ namespace ArrangeMock
             return this;
         }
 
-        public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
-        {
-            var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(memberAccessExpression);
-            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback( assignTolocalVariable );
-        }
-
-
         public IWasCalled WasCalled()
         {
             _mockToArrange.Verify(_moqExpressionCastToOriginalType);
@@ -117,6 +110,17 @@ namespace ArrangeMock
         public void Times()
         {
             // Do nothing. This just serves as a text to make the test more readably.
+        }
+
+        public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
+        {
+            var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(memberAccessExpression);
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(assignTolocalVariable);
+        }
+
+        public void AreUsedToInvokeAction<T>(Action<T> action)
+        {
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
         }
     }
 }

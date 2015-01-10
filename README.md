@@ -96,6 +96,7 @@ you still have the original Moq object which can be used as per normal.
 
 #### Processing Method Arguments
 [Saving arguments](#saving-arguments)
+[Using arguments to invoke an action](#using-arguments-to-invoke-an-action)
 
 ### Setup 
 #### Method without any arguments
@@ -325,7 +326,7 @@ In Moq, the "Callback" method is used to take the arguments that are passed in t
 this function is performed by the "TheArgumentsPassedIn" method.
 
 
-#### Saving arguments.
+#### Saving arguments
 With ArrangeMock, given a method that has one parameter, we can save the argument that was actually passed in like so ...
 
 ```c#
@@ -337,4 +338,18 @@ payrollSystemMock.Arrange()
                  .IsCalled()
                  .TheArgumentsPassedIn()
                  .AreSavedTo(() => passedInString);
+```
+
+#### Using arguments to invoke an action
+With ArrangeMock, given a method that has one parameter, we can use the argument that was actually passed in to invoke an action like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+string passedInString = null;
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                 .IsCalled()
+                 .TheArgumentsPassedIn()
+                 .AreUsedToInvokeAction<string>(x => passedInString = x );
 ```

@@ -139,5 +139,10 @@ namespace ArrangeMock
             }
         }
 
+        public void AreUsedToInvokeAction<T>(Action<T> action)
+        {
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
+        }
+
     }
 }

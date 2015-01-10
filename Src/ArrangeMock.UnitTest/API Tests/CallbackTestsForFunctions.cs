@@ -81,5 +81,44 @@ namespace ArrangeMock.UnitTest.APITests
             TestPropertyToSaveStringIn.ShouldBe("Foo");
             returnValueFromMock.ShouldBe(5);
         }
+
+        [Test]
+        public void ArgumentOfReferenceType_IsUsedToInvokeAction_Scenario1()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            string passedInString = null;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreUsedToInvokeAction<string>(x => passedInString = x );
+
+            payrollSystemMock.Object.GetSalaryForEmployee("Foo");
+
+            passedInString.ShouldBe("Foo");
+        }
+
+        [Test]
+        public void ArgumentOfReferenceType_IsUsedToInvokeAction_Scenario2()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreUsedToInvokeAction<string>(TestActionThatTakesAStringParameter);
+
+            payrollSystemMock.Object.GetSalaryForEmployee("Foo");
+
+            stringPassedToTestActionThatTakesAStringParameter.ShouldBe("Foo");
+        }
+
+        private string stringPassedToTestActionThatTakesAStringParameter;
+        private void TestActionThatTakesAStringParameter(string passedInString)
+        {
+            stringPassedToTestActionThatTakesAStringParameter = passedInString;
+        }
     }
 }
