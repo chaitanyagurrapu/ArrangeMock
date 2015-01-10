@@ -1,6 +1,6 @@
 namespace ArrangeMock.Interfaces
 {
-    public interface IThatFunction
+    public interface IThatMethod
     {
         IWasCalled WasCalled();
         void WasCalledAtMostOnce();

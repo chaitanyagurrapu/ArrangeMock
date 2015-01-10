@@ -5,7 +5,7 @@ namespace ArrangeMock.Interfaces
 {
     public interface IAssert<T> where T : class
     {
-        IThatFunction ThatMethod<TResult>(Expression<Func<T,TResult>> methodToArrange);
-        IThatAction ThatMethod(Expression<Action<T>> methodToArrange);
+        IThatMethod ThatMethod<TResult>(Expression<Func<T,TResult>> methodToArrange);
+        IThatMethod ThatMethod(Expression<Action<T>> methodToArrange);
     }
 }

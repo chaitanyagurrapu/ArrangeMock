@@ -53,8 +53,7 @@
     <Compile Include="Interfaces\IBetween.cs" />
     <Compile Include="Interfaces\IItReturns.cs" />
     <Compile Include="Interfaces\IArgumentPassedIn.cs" />
-    <Compile Include="Interfaces\IThatAction.cs" />
-    <Compile Include="Interfaces\IThatFunction.cs" />
+    <Compile Include="Interfaces\IThatMethod.cs" />
     <Compile Include="Interfaces\IWasCalled.cs" />
     <Compile Include="MoqExtensions.cs" />
     <Compile Include="ArrangeMockObject.cs" />

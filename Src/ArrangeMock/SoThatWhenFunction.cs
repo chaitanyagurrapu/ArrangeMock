@@ -8,7 +8,7 @@ namespace ArrangeMock
 {
     internal class SoThatWhenFunction<T, TResult> : ISoThatWhenFunction<TResult>,
                                                    IFunctionIsCalled<TResult>,
-                                                   IThatFunction,
+                                                   IThatMethod,
                                                    IArgumentPassedIn,
                                                    IWasCalled,
                                                    IBetween,
@@ -121,6 +121,11 @@ namespace ArrangeMock
             _mockToArrange.Verify(_moqExpressionCastToOriginalType, Moq.Times.Once());
         }
 
+        public void Times()
+        {
+            // Do nothing. This just serves as a text to make the test more readably.
+        }
+
         public void AreSavedTo<TArg>(Expression<Func<TArg>> memberAccessExpression)
         {
             var saveToAssignmentAction = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(memberAccessExpression);
@@ -133,12 +138,6 @@ namespace ArrangeMock
                 _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(saveToAssignmentAction);
             }
         }
-
-        public void Times()
-        {
-            // Do nothing. This just serves as a text to make the test more readably.
-        }
-
 
     }
 }

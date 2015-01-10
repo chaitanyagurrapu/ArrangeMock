@@ -26,15 +26,16 @@ namespace ArrangeMock
             return soThatWhenToReturn;
         }
 
-        public IThatFunction ThatMethod<TResult>(Expression<Func<T, TResult>> methodToArrange)
+        public IThatMethod ThatMethod<TResult>(Expression<Func<T, TResult>> methodToArrange)
         {
             var soThatWhenToReturn = new SoThatWhenFunction<T,TResult>(_mockToArrange, methodToArrange);
             return soThatWhenToReturn;
         }
 
-        public IThatAction ThatMethod(Expression<Action<T>> methodToArrange)
+        public IThatMethod ThatMethod(Expression<Action<T>> methodToArrange)
         {
-            throw new NotImplementedException();
+            var soThatWhenToReturn = new SoThatWhenAction<T>(_mockToArrange, methodToArrange);
+            return soThatWhenToReturn;
         }
     }
 }

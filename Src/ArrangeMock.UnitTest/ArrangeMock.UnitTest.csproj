@@ -58,6 +58,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="API Tests\AssertMethodTestAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="API Tests\AssertMethodTestFunction.cs" />
     <Compile Include="API Tests\AssertMethodTestBase.cs" />
     <Compile Include="API Tests\ArrangeMethodTests.cs" />
