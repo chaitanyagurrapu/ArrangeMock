@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpressionConverter.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpressionConverter.tt</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IBetweenTimes.cs" />
     <Compile Include="Interfaces\IBetween.cs" />
     <Compile Include="Interfaces\IItReturns.cs" />
@@ -82,6 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ExpressionConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExpressionConverter.Generated.cs</LastGenOutput>
+    </None>
     <None Include="SoThatWhenFunction.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SoThatWhenFunction.Generated.cs</LastGenOutput>

@@ -6,6 +6,7 @@ namespace ArrangeMock.Interfaces
     public interface IArgumentPassedIn
     {
         void AreSavedTo<T>(Expression<Func<T>> memberAccessExpression);
+        void AreSavedTo<T1, T2>(Expression<Func<T1>> memberAccessExpression1, Expression<Func<T2>> memberAccessExpression2);
 
         void AreUsedToInvokeAction<T>(Action<T> action);
         void AreUsedToInvokeAction<T1, T2>(Action<T1, T2> action);
@@ -23,6 +24,5 @@ namespace ArrangeMock.Interfaces
         void AreUsedToInvokeAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action);
         void AreUsedToInvokeAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action);
         void AreUsedToInvokeAction<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action);
-    
     }
 }

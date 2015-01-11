@@ -1,0 +1,50 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".Generated.cs" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+
+namespace ArrangeMock
+{
+    internal partial class ExpressionConverter
+    {
+
+<#
+for (var typeCount = 2; typeCount <= GenericTypeMax; typeCount++)
+{
+    var typeList = GetGenericList(typeCount, GenericTypeFormat);
+#>
+
+        internal static Action<<#= typeList #>> ConvertMemberAccessFuncsToAssignmentActionBlock<<#= typeList #>>
+        (
+            <#= GenerateStringNTimesUsingFormatAndSeparatorWithTwoArgs(typeCount, "Expression<Func<T{0}>> memberAccessFunc{1}") #>
+        )
+        {
+            <#= GenerateStringNTimesUsingFormatAndSeparator(typeCount, "ValidateMemberAccessExpressions(memberAccessFunc{0});", "\r\n\t\t\t") #>
+
+            var memberAccessExpressionList = new List<MemberExpression>()
+                                                                {
+                                                                    <#= GenerateStringNTimesUsingFormatAndSeparator(typeCount, "memberAccessFunc{0}.Body as MemberExpression", ",\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t") #>
+                                                                };
+
+            var parameterExpressionList = GetParameterExpressionsFromMemberExpression(memberAccessExpressionList);
+            var memberAssignmentExpressionList = memberAccessExpressionList.Zip(parameterExpressionList, Expression.Assign);
+
+            var blockExpression = Expression.Block(memberAssignmentExpressionList);
+
+            var lambda = Expression.Lambda<Action<<#= typeList #>>>(blockExpression, parameterExpressionList);
+
+            return lambda.Compile();
+        }
+<#
+}
+#>
+    }
+}
+
+<#@ Include File="TextTemplatingHelpers.tt" #>

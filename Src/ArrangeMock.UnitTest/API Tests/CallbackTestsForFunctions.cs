@@ -9,6 +9,7 @@ namespace ArrangeMock.UnitTest.APITests
     public class CallbackTestsForFunctions
     {
         private string TestPropertyToSaveStringIn { get; set; }
+        private int TestPropertyToSaveIntIn { get; set; }
 
         [Test]
         public void ArgumentOfReferenceType_IsSavedInLocalVariable()
@@ -42,6 +43,45 @@ namespace ArrangeMock.UnitTest.APITests
             payrollSystemMock.Object.GetSalaryForEmployee("Foo");
 
             TestPropertyToSaveStringIn.ShouldBe("Foo");
+        }
+
+        [Test]
+        public void TwoArgumentOfReferenceType_IsSavedInLocalVariable()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            string passedInString = null;
+            int passedInInt = 0;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => passedInString,
+                                         () => passedInInt );
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo",3);
+
+            passedInString.ShouldBe("Foo");
+            passedInInt.ShouldBe(3);
+        }
+
+        [Test]
+        public void TwoArgumentOfReferenceType_IsSavedInProperty()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            TestPropertyToSaveStringIn = null;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(),WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => TestPropertyToSaveStringIn,
+                                         () => TestPropertyToSaveIntIn);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo",3);
+
+            TestPropertyToSaveStringIn.ShouldBe("Foo");
+            TestPropertyToSaveIntIn.ShouldBe(3);
         }
 
         [Test]

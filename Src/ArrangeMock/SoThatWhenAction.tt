@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".Generated.cs" #>
 using System;
+using System.Linq.Expressions;
 
 namespace ArrangeMock
 {
@@ -21,9 +22,17 @@ for (var typeCount = 2; typeCount <= GenericTypeMax; typeCount++)
             _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
         }
 
+        public void AreSavedTo<<#= typeList #>>(<#= GenerateStringNTimesUsingFormatAndSeparatorWithTwoArgs(typeCount, "Expression<Func<T{0}>> memberAccessExpression{1}")#>)
+        {
+            var assignTolocalVariable = ExpressionConverter.ConvertMemberAccessFuncsToAssignmentActionBlock(<#= GenerateStringNTimesUsingFormatAndSeparator(typeCount, "memberAccessExpression{0}") #>);
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(assignTolocalVariable);
+        }
+
 <#
 }
 #>
+
+
     }
 }
 

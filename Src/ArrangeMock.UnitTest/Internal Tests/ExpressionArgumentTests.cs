@@ -58,9 +58,36 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
         [Test]
         public void ConvertPropertyAccessFunctionToAssignmentAction()
         {
-            Expression<Func<string>> inputFunc = () => TestProperty;
-            Action<string> outputAction = x => TestProperty = x;
+            Expression<Func<string>> inputFunc = () => TestProperty1;
+            Action<string> outputAction = x => TestProperty1 = x;
             var result = ExpressionConverter.ConvertMemberAccessFuncToAssignmentAction(inputFunc);
+
+            result.ToString().ShouldBe(outputAction.ToString());
+        }
+
+        [Test]
+        public void ConvertVariableAccessFunctionsToAssignmentActionBlock()
+        {
+            string testString1 = null;
+            string testString2 = null;
+            Expression<Func<string>> inputFunc = () => testString1;
+            Expression<Func<string>> inputFunc2 = () => testString2;
+
+            Action<string,string> outputAction = (x1, x2) => {  testString1 = x1; testString2 = x2; };
+
+            var result = ExpressionConverter.ConvertMemberAccessFuncsToAssignmentActionBlock<string,string>(inputFunc, inputFunc2);
+
+            result.ToString().ShouldBe(outputAction.ToString());
+        }
+
+        [Test]
+        public void ConvertPropertyAccessFunctionsToAssignmentActionBlock()
+        {
+            Expression<Func<string>> inputFunc1 = () => TestProperty1;
+            Expression<Func<string>> inputFunc2 = () => TestProperty2;
+            Action<string, string> outputAction = (x1, x2) => { TestProperty1 = x1; TestProperty2 = x2; };
+
+            var result = ExpressionConverter.ConvertMemberAccessFuncsToAssignmentActionBlock<string,string>(inputFunc1,inputFunc2);
 
             result.ToString().ShouldBe(outputAction.ToString());
         }
@@ -82,6 +109,7 @@ namespace ArrangeMock.UnitTest.InternalTests.ExpressionTests
             return "TestString";
         }
 
-        private string TestProperty { get; set; }
+        private string TestProperty1 { get; set; }
+        private string TestProperty2 { get; set; }
     }
 }

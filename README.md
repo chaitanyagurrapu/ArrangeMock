@@ -97,7 +97,11 @@ you still have the original Moq object which can be used as per normal.
 #### Callback
 [Saving arguments](#saving-arguments)
 
+[Saving multiple arguments](#saving-multiple-arguments)
+
 [Using arguments to invoke an action](#using-arguments-to-invoke-an-action)
+
+[Using multiple arguments to invoke an action](#using-multiple-arguments-to-invoke-an-action)
 
 ### Setup 
 #### Method without any arguments
@@ -339,6 +343,22 @@ payrollSystemMock.Arrange()
                  .IsCalled()
                  .TheArgumentsPassedIn()
                  .AreSavedTo(() => passedInString);
+```
+
+#### Saving multiple arguments
+With ArrangeMock, given a method that has more than one parameter, we can save the argument that were actually passed in like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+string passedInString = null;
+int passedInInt = 0;
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.FinalisePaymentsForEmployeeForMonth(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>() ))
+                 .IsCalled()
+                 .TheArgumentsPassedIn()
+                 .AreSavedTo(() => passedInString, 
+                             () => passedInInt);
 ```
 
 #### Using arguments to invoke an action

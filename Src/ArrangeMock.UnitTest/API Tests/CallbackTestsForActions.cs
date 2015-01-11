@@ -9,9 +9,10 @@ namespace ArrangeMock.UnitTest.APITests
     public class CallbackTestsForActions
     {
         private string TestPropertyToSaveStringIn { get; set; }
+        private int TestPropertyToSaveIntIn { get; set; }
 
         [Test]
-        public void ForAction_ArgumentOfReferenceType_IsSavedInLocalVariable()
+        public void ArgumentOfReferenceType_IsSavedInLocalVariable()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
             string passedInString = null;
@@ -28,7 +29,7 @@ namespace ArrangeMock.UnitTest.APITests
         }
 
         [Test]
-        public void ForAction_ArgumentOfReferenceType_IsSavedInProperty()
+        public void ArgumentOfReferenceType_IsSavedInProperty()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
             TestPropertyToSaveStringIn = null;
@@ -42,6 +43,46 @@ namespace ArrangeMock.UnitTest.APITests
             payrollSystemMock.Object.FinalisePaymentsForEmployee("Foo");
 
             TestPropertyToSaveStringIn.ShouldBe("Foo");
+        }
+
+        [Test]
+        public void TwoArgumentsOfReferenceType_IsSavedInLocalVariable()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            string passedInString = null;
+            int passedInInt = 0;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployeeForMonth(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>() ))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => passedInString, 
+                                         () => passedInInt);
+
+            payrollSystemMock.Object.FinalisePaymentsForEmployeeForMonth("Foo",3);
+
+            passedInString.ShouldBe("Foo");
+            passedInInt.ShouldBe(3);
+
+        }
+
+        [Test]
+        public void TwoArgumentsOfReferenceType_IsSavedInProperty()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            TestPropertyToSaveStringIn = null;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.FinalisePaymentsForEmployeeForMonth(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreSavedTo(() => TestPropertyToSaveStringIn,
+                                         () => TestPropertyToSaveIntIn);
+
+            payrollSystemMock.Object.FinalisePaymentsForEmployeeForMonth("Foo",3);
+
+            TestPropertyToSaveStringIn.ShouldBe("Foo");
+            TestPropertyToSaveIntIn.ShouldBe(3);
         }
 
         [Test]

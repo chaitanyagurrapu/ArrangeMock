@@ -3,9 +3,21 @@ private const int GenericTypeMax = 16;
 private const int GenericTypeMin = 5;
 
 private const string GenericTypeFormat = "T{0}";
+private const string GenericTypeExpressionFuncParameter = "Expression<Func<T{0}>> memberAccessFunc{1}";
 
 private static string GetGenericList(int typeCount, string format, string separator = ", ")
 {
 	return string.Join(separator, Enumerable.Range(1, typeCount).Select(n => string.Format(format, n)).ToArray());
 }
+
+private static string GenerateStringNTimesUsingFormatAndSeparator(int typeCount, string format, string separator = ", ")
+{
+	return string.Join(separator, Enumerable.Range(1, typeCount).Select(n => string.Format(format, n)).ToArray());
+}
+
+private static string GenerateStringNTimesUsingFormatAndSeparatorWithTwoArgs(int typeCount, string format, string separator = ", ")
+{
+	return string.Join(separator, Enumerable.Range(1, typeCount).Select(n => string.Format(format, n, n)).ToArray());
+}
+
 #>
