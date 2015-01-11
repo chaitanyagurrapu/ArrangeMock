@@ -120,5 +120,49 @@ namespace ArrangeMock.UnitTest.APITests
         {
             stringPassedToTestActionThatTakesAStringParameter = passedInString;
         }
+
+        [Test]
+        public void ArgumentOfReferenceType_IsUsedToInvokeActionWithTwoParameters_Scenario1()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+            string passedInString = null;
+            int passedInInt = 0;
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreUsedToInvokeAction<string, int>((x, i) => { passedInString = x; passedInInt = i; });
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo",3);
+
+            passedInString.ShouldBe("Foo");
+            passedInInt.ShouldBe(3);
+        }
+
+        [Test]
+        public void ArgumentOfReferenceType_IsUsedToInvokeActionWithTwoParameters_Scenario2()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>()))
+                             .IsCalled()
+                             .TheArgumentsPassedIn()
+                             .AreUsedToInvokeAction<string,int>(TestActionThatTakesTwoStringParameter);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo",3);
+
+            string1PassedToTestActionThatTakesAStringParameter.ShouldBe("Foo");
+            int2PassedToTestActionThatTakesAStringParameter.ShouldBe(3);
+        }
+
+        private string string1PassedToTestActionThatTakesAStringParameter;
+        private int int2PassedToTestActionThatTakesAStringParameter;
+        private void TestActionThatTakesTwoStringParameter(string passedInString1, int passedInInt2)
+        {
+            string1PassedToTestActionThatTakesAStringParameter = passedInString1;
+            int2PassedToTestActionThatTakesAStringParameter = passedInInt2;
+        }
     }
 }

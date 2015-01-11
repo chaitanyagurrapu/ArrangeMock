@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArrangeMock.UnitTest.TestableInterfaces
 {
@@ -14,5 +10,6 @@ namespace ArrangeMock.UnitTest.TestableInterfaces
         int GetSalaryForEmployeeForPeriod(string employeeName, DateTime from, DateTime to);
         void FinaliseAllPayments();
         void FinalisePaymentsForEmployee(string employeeName);
+        void FinalisePaymentsForEmployeeForMonth(string employeeName, int month);
     }
 }

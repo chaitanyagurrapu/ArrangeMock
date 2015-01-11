@@ -1,0 +1,11 @@
+﻿<#+
+private const int GenericTypeMax = 16;
+private const int GenericTypeMin = 5;
+
+private const string GenericTypeFormat = "T{0}";
+
+private static string GetGenericList(int typeCount, string format, string separator = ", ")
+{
+	return string.Join(separator, Enumerable.Range(1, typeCount).Select(n => string.Format(format, n)).ToArray());
+}
+#>

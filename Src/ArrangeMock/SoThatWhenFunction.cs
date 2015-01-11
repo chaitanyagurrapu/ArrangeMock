@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Data.SqlTypes;
 using System.Linq.Expressions;
 using ArrangeMock.Interfaces;
 using Moq;
 
 namespace ArrangeMock
 {
-    internal class SoThatWhenFunction<T, TResult> : ISoThatWhenFunction<TResult>,
+    internal partial class SoThatWhenFunction<T, TResult> : ISoThatWhenFunction<TResult>,
                                                    IFunctionIsCalled<TResult>,
                                                    IThatMethod,
                                                    IArgumentPassedIn,
@@ -139,7 +138,7 @@ namespace ArrangeMock
             }
         }
 
-        public void AreUsedToInvokeAction<T>(Action<T> action)
+        public void AreUsedToInvokeAction<TArg>(Action<TArg> action)
         {
             _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
         }

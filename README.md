@@ -94,8 +94,9 @@ you still have the original Moq object which can be used as per normal.
 
 [Method was called once](#method-was-called-once)
 
-#### Processing Method Arguments
+#### Callback
 [Saving arguments](#saving-arguments)
+
 [Using arguments to invoke an action](#using-arguments-to-invoke-an-action)
 
 ### Setup 
@@ -321,7 +322,7 @@ payrollSystemMock.Assert()
                  .Once();
 ```
 
-### Processing Method Arguments
+### Callback
 In Moq, the "Callback" method is used to take the arguments that are passed in to a method and process them further. In ArrangeMock,
 this function is performed by the "TheArgumentsPassedIn" method.
 
@@ -352,4 +353,19 @@ payrollSystemMock.Arrange()
                  .IsCalled()
                  .TheArgumentsPassedIn()
                  .AreUsedToInvokeAction<string>(x => passedInString = x );
+```
+
+#### Using multiple arguments to invoke an action
+With ArrangeMock, given a method that has more than one parameter, we can use the arguments that were actually passed in to invoke an action like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+string passedInString = null;
+int passedInInt = 0;
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear(WithAnyArgument.OfType<string>(), WithAnyArgument.OfType<int>()))
+                 .IsCalled()
+                 .TheArgumentsPassedIn()
+                 .AreUsedToInvokeAction<string, int>((x, i) => { passedInString = x; passedInInt = i; });
 ```

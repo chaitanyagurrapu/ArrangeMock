@@ -1,0 +1,30 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".Generated.cs" #>
+using System;
+
+namespace ArrangeMock
+{
+    internal partial class SoThatWhenFunction<T,TResult> 
+    {
+
+<#
+for (var typeCount = 2; typeCount <= GenericTypeMax; typeCount++)
+{
+    var typeList = GetGenericList(typeCount, GenericTypeFormat);
+#>
+        public void AreUsedToInvokeAction<<#= typeList #>>(Action<<#= typeList #>> action)
+        {
+            _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
+        }
+
+<#
+}
+#>
+    }
+}
+
+<#@ Include File="TextTemplatingHelpers.tt" #>

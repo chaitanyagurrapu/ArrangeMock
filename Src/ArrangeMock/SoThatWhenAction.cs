@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using ArrangeMock.Interfaces;
 using Moq;
 
 namespace ArrangeMock
 {
-    internal class SoThatWhenAction<T> : ISoThatWhenAction<T>, 
+    internal partial class SoThatWhenAction<T> : ISoThatWhenAction<T>, 
                                          IActionIsCalled<T>,
                                          IArgumentPassedIn,
                                          IBetween,
@@ -118,7 +119,7 @@ namespace ArrangeMock
             _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(assignTolocalVariable);
         }
 
-        public void AreUsedToInvokeAction<T>(Action<T> action)
+        public void AreUsedToInvokeAction<TArg>(Action<TArg> action)
         {
             _mockToArrange.Setup(_moqExpressionCastToOriginalType).Callback(action);
         }
