@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ArrangeMock</id>
+    <version>1.0.0</version>
+    <authors>Chaitanya Gurrapu</authors>
+    <owners>Chaitanya Gurrapu</owners>
+    <projectUrl>https://github.com/chaitanyagurrapu/ArrangeMock</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Wraps common mocking patterns in descriptive methods. This makes it easy to write tests that read like functional specifications of the application. </description>
+    <releaseNotes>First release. Contains core features such as the ability to set up method calls, property getter/setters, callback from invocations and verification of whether or not methods were called.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Moq Mock Mocking Testing Unit-Testing</tags>
+    <dependencies>
+      <dependency id="Moq" version="4.2.1409.1722" />
+    </dependencies>
+  </metadata>
+</package>

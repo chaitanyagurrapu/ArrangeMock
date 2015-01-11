@@ -43,7 +43,10 @@ payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
 
 ```
 
-Anyone who had to set up this scenario had to spend some time googling before discovering the "Callback" method and how it can be used. The same set up in ArrangeMock looks like so ...
+Anyone who had to set up this scenario had to spend some time googling before discovering the "Callback" method and how it can be used. 
+And any subsequent developer who hasn't seen the "Callback" method of Moq before will probably have to look it up as well.
+
+The same set up in ArrangeMock looks like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
@@ -64,6 +67,12 @@ With ArrangeMock, the unfamiliar Moq method names, It.IsAny<T>() syntax and any 
 
 While ArrangeMock wraps up the common mocking scenarios and patterns if you need to set up a scenario that is not aliased by ArrangeMock 
 you still have the original Moq object which can be used as per normal.
+
+Using ArrangeMock along with such wonderful libraries as [Shouldly](https://github.com/shouldly/shouldly) (which was the inspiration for this project) allows us to write descriptive
+tests that read like functional specifications of the application.
+
+### Installation
+[ArrangeMock on Nuget.org](https://www.nuget.org/packages/ArrangeMock/1.0.0)
 
 ### Contents
 #### Setup Methods
