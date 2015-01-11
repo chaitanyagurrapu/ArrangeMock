@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Moq;
 
 namespace ArrangeMock
 {
-    internal partial class ExpressionConverter
+    internal static partial class ExpressionConverter
     {
         internal static Expression ConvertArrangeMockExpressionToMoqExpression(Expression arrangeMockExpression)
         {
@@ -82,8 +81,7 @@ namespace ArrangeMock
             return lambda.Compile();
         }
 
-
-        internal static List<ParameterExpression> GetParameterExpressionsFromMemberExpression(IEnumerable<MemberExpression> memberExpressions)
+        private static List<ParameterExpression> GetParameterExpressionsFromMemberExpression(IEnumerable<MemberExpression> memberExpressions)
         {
             var parameterExpressionList = new List<ParameterExpression>();
 

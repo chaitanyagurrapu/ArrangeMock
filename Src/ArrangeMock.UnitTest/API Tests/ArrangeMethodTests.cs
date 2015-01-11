@@ -36,6 +36,32 @@ namespace ArrangeMock.UnitTest.APITests
         }
 
         [Test]
+        public void CanArrangeMethodWithSpecificArgument_ShouldPass()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee("Foo"))
+                             .IsCalled()
+                             .ItReturns(5);
+
+            payrollSystemMock.Object.GetSalaryForEmployee("Foo").ShouldBe(5);
+        }
+
+        [Test]
+        public void CanArrangeMethodWithSpecificArgument_ShouldFail()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployee("Foo"))
+                             .IsCalled()
+                             .ItReturns(5);
+
+            payrollSystemMock.Object.GetSalaryForEmployee("Bar").ShouldBe(0);
+        }
+
+        [Test]
         public void CanArrangeMethodWithTwoAnyArguments()
         {
             var payrollSystemMock = new Mock<IPayrollSystem>();
@@ -47,6 +73,48 @@ namespace ArrangeMock.UnitTest.APITests
                              .ItReturns(6);
 
             payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(6);
+        }
+
+        [Test]
+        public void CanArrangeMethodWithTwoSpecificArguments_ShouldPass()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear("Foo",
+                                                                                  2014))
+                             .IsCalled()
+                             .ItReturns(6);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(6);
+        }
+
+        [Test]
+        public void CanArrangeMethodWithTwoSpecificArguments_ShouldFail_Scenario1()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear("Foo",
+                                                                                  2013))
+                             .IsCalled()
+                             .ItReturns(6);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(0);
+        }
+
+        [Test]
+        public void CanArrangeMethodWithTwoSpecificArguments_ShouldFail_Scenario2()
+        {
+            var payrollSystemMock = new Mock<IPayrollSystem>();
+
+            payrollSystemMock.Arrange()
+                             .SoThatWhenMethod(x => x.GetSalaryForEmployeeForYear("Bar",
+                                                                                  2014))
+                             .IsCalled()
+                             .ItReturns(6);
+
+            payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(0);
         }
 
         [Test]
