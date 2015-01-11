@@ -1,4 +1,4 @@
-﻿using ArrangeMock.UnitTest.TestableInterfaces;
+﻿using ArrangeMock.UnitTest.TestableArtifacts;
 using Moq;
 using NUnit.Framework;
 

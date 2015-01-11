@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using ArrangeMock.UnitTest.TestableInterfaces;
+using ArrangeMock.UnitTest.TestableArtifacts;
 using Moq;
 using NUnit.Framework;
 using Shouldly;

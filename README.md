@@ -66,12 +66,17 @@ While ArrangeMock wraps up the common mocking scenarios and patterns if you need
 you still have the original Moq object which can be used as per normal.
 
 ### Contents
-#### Setup 
+#### Setup Methods
 [Method without any arguments](#method-without-any-arguments)
 
 [Method with one argument](#method-with-one-argument)
 
 [Method with more than one argument](#method-with-more-than-one-argument)
+
+#### Setup properties
+[Property get](#property-get)
+
+[Property set with callback](#property-set-with-callback)
 
 #### Verify
 [Method was called](#method-was-called)
@@ -103,7 +108,7 @@ you still have the original Moq object which can be used as per normal.
 
 [Using multiple arguments to invoke an action](#using-multiple-arguments-to-invoke-an-action)
 
-### Setup 
+### Setup methods
 #### Method without any arguments
 
 With ArrangeMock, a function that doesn't take any arguments and returns a value can be mocked like so ...
@@ -143,6 +148,35 @@ payrollSystemMock.Arrange()
                  .ItReturns(6);
 
 payrollSystemMock.Object.GetSalaryForEmployeeForYear("Foo", 2014).ShouldBe(6);
+```
+
+### Setup properties
+#### Property get
+
+With ArrangeMock, the accessing of a property can be mocked like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenProperty(x => x.IsOnline)
+                 .IsAccessed()
+                 .ItReturns(true);
+```
+
+#### Property set with callback
+
+With ArrangeMock, when a property is set, the value provided to the setter can be saved locally like so ...
+
+```c#
+var payrollSystemMock = new Mock<IPayrollSystem>();
+
+bool boolPassedToSet = false;
+
+payrollSystemMock.Arrange()
+                 .SoThatWhenProperty(x => x.IsOnline)
+                 .IsSet()
+                 .ItIsSavedTo(() => boolPassedToSet);
 ```
 
 ### Verify

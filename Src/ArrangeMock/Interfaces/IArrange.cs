@@ -7,5 +7,6 @@ namespace ArrangeMock.Interfaces
     {
         ISoThatWhenFunction<TResult> SoThatWhenMethod<TResult>(Expression<Func<T,TResult>> methodToArrange);
         ISoThatWhenAction<T> SoThatWhenMethod(Expression<Action<T>> methodToArrange);
+        ISoThatWhenProperty<TResult> SoThatWhenProperty<TResult>(Expression<Func<T,TResult>> propertyToArrange);
     }
 }

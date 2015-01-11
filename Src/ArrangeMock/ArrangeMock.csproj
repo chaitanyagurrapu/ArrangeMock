@@ -58,6 +58,9 @@
     <Compile Include="Interfaces\IBetween.cs" />
     <Compile Include="Interfaces\IItReturns.cs" />
     <Compile Include="Interfaces\IArgumentPassedIn.cs" />
+    <Compile Include="Interfaces\IPropertyGetReturns.cs" />
+    <Compile Include="Interfaces\IPropertySetReturns.cs" />
+    <Compile Include="Interfaces\ISoThatWhenProperty.cs" />
     <Compile Include="Interfaces\IThatMethod.cs" />
     <Compile Include="Interfaces\IWasCalled.cs" />
     <Compile Include="MoqExtensions.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Interfaces\IFunctionIsCalled.cs" />
     <Compile Include="Interfaces\ISoThatWhenFunction.cs" />
     <Compile Include="Interfaces\ITimes.cs" />
+    <Compile Include="SoThatWhenProperty.cs" />
     <Compile Include="SoThatWhenFunction.Generated.cs">
       <DependentUpon>SoThatWhenFunction.tt</DependentUpon>
       <AutoGen>True</AutoGen>
