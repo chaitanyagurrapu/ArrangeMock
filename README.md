@@ -35,7 +35,7 @@ In Moq, this is usually done with a callback like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
-var employeePassedToMethod = null;
+string employeePassedToMethod = null;
 
 payrollSystemMock.Setup(x => x.GetSalaryForEmployee(It.IsAny<string>()))
                  .Returns(5)
@@ -50,7 +50,7 @@ The same set up in ArrangeMock looks like so ...
 
 ```c#
 var payrollSystemMock = new Mock<IPayrollSystem>();
-var employeePassedToMethod = null;
+string employeePassedToMethod = null;
 
 payrollSystemMock.Arrange()
                  .SoThatWhenMethod(x => x.GetSalaryForEmployee(WithAnyArgument.OfType<string>()))
